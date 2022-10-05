@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -22,9 +23,11 @@ function Home() {
       </TopContainer>
       <MoviesContainer>
         {movies.map((m) => (
-          <MovieLayout key={m.id}>
-            <img src={m.posterURL} alt={m.title}/>
-          </MovieLayout>
+          <Link to={`/sessoes/${m.id}`} key={m.id}>
+            <MovieLayout>
+              <img src={m.posterURL} alt={m.title} />
+            </MovieLayout>
+          </Link>
         ))}
       </MoviesContainer>
     </HomeContainer>
@@ -62,7 +65,6 @@ const MoviesContainer = styled.div`
   flex-wrap: wrap;
   margin-top: 35px;
   overflow-y: auto;
-  cursor: pointer;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -79,6 +81,7 @@ const MovieLayout = styled.div`
   align-items: center;
   margin-left: 30px;
   margin-bottom: 11px;
+  cursor: pointer;
   img {
     width: 129px;
     height: 193px;

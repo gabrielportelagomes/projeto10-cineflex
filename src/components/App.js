@@ -13,7 +13,7 @@ function App() {
         <Logo />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sessoes" element={<ShowTimes />} />
+          <Route path="/sessoes/:idFilme" element={<ShowTimes />} />
         </Routes>
       </ScreenContainer>
     </BrowserRouter>
