@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "../assets/GlobalStyle";
 import Logo from "./Logo";
-import Home from "./Home";
+import Home from "./HomePage";
+import ShowTimes from "./ShowTimesPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Logo />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/sessoes" element={<ShowTimes />} />
         </Routes>
       </ScreenContainer>
     </BrowserRouter>
