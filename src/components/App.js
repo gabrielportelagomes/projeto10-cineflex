@@ -4,6 +4,7 @@ import GlobalStyle from "../assets/GlobalStyle";
 import Logo from "./Logo";
 import Home from "./HomePage";
 import ShowTimes from "./ShowTimesPage";
+import Seats from "./SeatsPage"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sessoes/:idFilme" element={<ShowTimes />} />
+          <Route path="/assentos/:idSessao" element={<Seats/>} />
         </Routes>
       </ScreenContainer>
     </BrowserRouter>

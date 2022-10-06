@@ -2,6 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import loading from "../assets/img/loading.gif";
 
 function ShowTimes() {
@@ -21,10 +22,10 @@ function ShowTimes() {
 
   if (movieInfo.days === undefined) {
     return (
-      <ShowTimesLoading>
+      <Loading>
         <img src={loading} alt="loading gif" />
         <p>Carregando...</p>
-      </ShowTimesLoading>
+      </Loading>
     );
   }
 
@@ -34,16 +35,18 @@ function ShowTimes() {
         <TopContainer>
           <h2>Selecione o horário</h2>
         </TopContainer>
-        {movieInfo.days.map((s) => (
-          <MovieSessionLayout key={s.id}>
+        {movieInfo.days.map((m) => (
+          <MovieSessionLayout key={m.id}>
             <div>
               <p>
-                {s.weekday} - {s.date}
+                {m.weekday} - {m.date}
               </p>
             </div>
             <div>
-              {s.showtimes.map((st) => (
-                <button key={st.id}>{st.name}</button>
+              {m.showtimes.map((st) => (
+                <Link to={`/assentos/${st.id}`} key={st.id}>
+                  <button>{st.name}</button>
+                </Link>
               ))}
             </div>
           </MovieSessionLayout>
@@ -61,19 +64,19 @@ function ShowTimes() {
 
 export default ShowTimes;
 
-const ShowTimesLoading = styled.div`
+const Loading = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  img{
+  img {
     width: 100px;
     height: 100px;
     margin-bottom: 10px;
   }
-  p{
+  p {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 20px;
