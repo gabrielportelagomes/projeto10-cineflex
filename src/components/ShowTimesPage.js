@@ -2,23 +2,31 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import loading from "../assets/img/loading.gif";
 
 function ShowTimes() {
   const { idFilme } = useParams();
   const URL = `https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`;
   const [movieInfo, setMovieInfo] = useState({});
-  const [session, setSession] = useState([]);
 
   useEffect(() => {
     const promise = axios.get(URL);
 
     promise.then((response) => {
       setMovieInfo(response.data);
-      setSession(response.data.days);
     });
 
     promise.catch((error) => console.log(error));
   }, []);
+
+  if (movieInfo.days === undefined) {
+    return (
+      <ShowTimesLoading>
+        <img src={loading} alt="loading gif" />
+        <p>Carregando...</p>
+      </ShowTimesLoading>
+    );
+  }
 
   return (
     <ShowTimesContainer>
@@ -26,7 +34,7 @@ function ShowTimes() {
         <TopContainer>
           <h2>Selecione o horário</h2>
         </TopContainer>
-        {session.map((s) => (
+        {movieInfo.days.map((s) => (
           <MovieSessionLayout key={s.id}>
             <div>
               <p>
@@ -52,6 +60,26 @@ function ShowTimes() {
 }
 
 export default ShowTimes;
+
+const ShowTimesLoading = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  p{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #293845;
+  }
+`;
 
 const ShowTimesContainer = styled.div`
   width: 100%;
