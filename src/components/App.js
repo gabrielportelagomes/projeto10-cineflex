@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GlobalStyle from "../assets/GlobalStyle";
+import GlobalStyle from "../assets/css/GlobalStyle";
 import Logo from "./Logo";
 import Home from "./HomePage";
 import ShowTimes from "./ShowTimesPage";

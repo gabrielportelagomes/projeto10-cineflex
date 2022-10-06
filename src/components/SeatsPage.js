@@ -3,8 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import loading from "../assets/img/loading.gif";
+import colors from "../assets/css/colors";
+import Seat from "./Seat";
 
 function Seats() {
+  const { GREEN, BORDERGREEN, GRAY, BORDERGRAY, YELLOW, BORDERYELLOW } = colors;
   const { idSessao } = useParams();
   const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`;
   const [seatsInfo, setSeatsInfo] = useState({});
@@ -34,28 +37,28 @@ function Seats() {
         <h2>Selecione o(s) horário(s)</h2>
       </TopContainer>
       <SeatContainer>
-        {seatsInfo.seats.map((s) =>
-          s.name < 10 ? (
-            <SeatLayout key={s.id}>0{s.name}</SeatLayout>
-          ) : (
-            <SeatLayout key={s.id}>{s.name}</SeatLayout>
-          )
-        )}
+        {seatsInfo.seats.map((s) => (
+          <Seat
+            key={s.id}
+            name={s.name}
+            status={s.isAvailable}
+          />
+        ))}
       </SeatContainer>
-      <SeatLabelContainer>
-        <SeatLabel>
-          <div></div>
+      <LabelsContainer>
+        <SeatLabelContainer>
+          <SeatLabel color={GREEN} borderColor={BORDERGREEN}></SeatLabel>
           <p>Selecionado</p>
-        </SeatLabel>
-        <SeatLabel>
-          <div></div>
+        </SeatLabelContainer>
+        <SeatLabelContainer>
+          <SeatLabel color={GRAY} borderColor={BORDERGRAY}></SeatLabel>
           <p>Disponível</p>
-        </SeatLabel>
-        <SeatLabel>
-          <div></div>
+        </SeatLabelContainer>
+        <SeatLabelContainer>
+          <SeatLabel color={YELLOW} borderColor={BORDERYELLOW}></SeatLabel>
           <p>Indisponível</p>
-        </SeatLabel>
-      </SeatLabelContainer>
+        </SeatLabelContainer>
+      </LabelsContainer>
       <Footer>
         <MoviePoster>
           <img src={seatsInfo.movie.posterURL} alt={seatsInfo.movie.title} />
@@ -118,65 +121,42 @@ const TopContainer = styled.div`
 `;
 
 const SeatContainer = styled.div`
-  width: 100%;
   display: grid;
   grid-template-columns: 26px 26px 26px 26px 26px 26px 26px 26px 26px 26px;
-  grid-column-gap: 7px;
+  grid-column-gap: 8px;
   grid-row-gap: 18px;
-  margin-left: 24px;
 `;
 
-const SeatLayout = styled.div`
-  width: 26px;
-  height: 26px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  border: 1px solid #808f9d;
-  background-color: #c3cfd9;
-  cursor: pointer;
-`;
-
-const SeatLabelContainer = styled.div`
-  width: 90%;
+const LabelsContainer = styled.div`
+  width: 80%;
   display: flex;
   justify-content: space-around;
   margin: 16px 0;
 `;
 
-const SeatLabel = styled.div`
+const SeatLabelContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  div {
-    width: 26px;
-    height: 26px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin-bottom: 5px;
-    &:nth-child(1) {
-      background-color: #1aae9e;
-      border: 1px solid #0e7d71;
-    }
-    &:nth-child(2) {
-      background-color: #c3cfd9;
-      border: 1px solid #0e7d71;
-    }
-    &:nth-child(3) {
-      background-color: #fbe192;
-      border: 1px solid #f7c52b;
-    }
-  }
   p {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 13px;
     color: #293845;
   }
+`;
+
+const SeatLabel = styled.div`
+  width: 26px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-bottom: 5px;
+  background-color: ${(props) => props.color};
+  border: 1px solid ${(props) => props.borderColor};
 `;
 
 const Footer = styled.div`
