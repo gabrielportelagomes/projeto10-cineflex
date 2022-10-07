@@ -11,7 +11,8 @@ function Seats() {
   const { idSessao } = useParams();
   const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`;
   const [seatsInfo, setSeatsInfo] = useState({});
-  const [selectedSeat, setSelectedSeat] = useState([])
+  const [selectedSeat, setSelectedSeat] = useState([]);
+  const [form, setForm] = useState({ ids: "", name: "", cpf: "" });
 
   useEffect(() => {
     const promise = axios.get(URL);
@@ -20,8 +21,24 @@ function Seats() {
       setSeatsInfo(response.data);
     });
 
-    promise.catch((error) => console.log(error));
+    promise.catch((error) => console.log(error.response.data));
   }, []);
+
+  function handleForm(event) {
+    const { name, value } = event.target;
+    setForm({ ...form, [name]: value });
+  }
+
+  function bookSeat(event) {
+    event.preventDefault();
+    /* const URL = "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many" */
+    const body = { ...form, ids: selectedSeat };
+
+    /* const promise = axios.post(URL, body) */
+    console.log(form);
+    console.log(body);
+    alert("Assento reservado com sucesso!");
+  }
 
   if (seatsInfo.seats === undefined) {
     return (
@@ -63,6 +80,33 @@ function Seats() {
           <p>Indisponível</p>
         </SeatLabelContainer>
       </LabelsContainer>
+      <FormContainer onSubmit={bookSeat}>
+        <div>
+          <Label htmlFor="name">Nome do comprador:</Label>
+          <Input
+            id="name"
+            name="name"
+            value={form.name}
+            onChange={handleForm}
+            type="text"
+            placeholder="Digite seu nome..."
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="cpf">CPF do comprador:</Label>
+          <Input
+            id="cpf"
+            name="cpf"
+            value={form.cpf}
+            onChange={handleForm}
+            type="number"
+            placeholder="Digite seu CPF..."
+            required
+          />
+        </div>
+        <Button type="submit">Reservar assento(s)</Button>
+      </FormContainer>
       <Footer>
         <MoviePoster>
           <img src={seatsInfo.movie.posterURL} alt={seatsInfo.movie.title} />
@@ -161,6 +205,60 @@ const SeatLabel = styled.div`
   margin-bottom: 5px;
   background-color: ${(props) => props.color};
   border: 1px solid ${(props) => props.borderColor};
+`;
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 41px;
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const Label = styled.label`
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 5px;
+`;
+
+const Input = styled.input`
+  width: 327px;
+  height: 51px;
+  border-radius: 3px;
+  border: 1px solid #d5d5d5;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #000000;
+  padding: 18px;
+  ::placeholder {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    font-style: italic;
+    color: #afafaf;
+  }
+`;
+
+const Button = styled.button`
+  width: 225px;
+  height: 42px;
+  border-radius: 3px;
+  border: none;
+  background-color: #e8833a;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #ffffff;
+  margin-top: 50px;
 `;
 
 const Footer = styled.div`
