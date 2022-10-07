@@ -11,6 +11,7 @@ function Seats() {
   const { idSessao } = useParams();
   const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`;
   const [seatsInfo, setSeatsInfo] = useState({});
+  const [selectedSeat, setSelectedSeat] = useState([])
 
   useEffect(() => {
     const promise = axios.get(URL);
@@ -40,8 +41,11 @@ function Seats() {
         {seatsInfo.seats.map((s) => (
           <Seat
             key={s.id}
+            id={s.id}
             name={s.name}
             status={s.isAvailable}
+            setSelectedSeat={setSelectedSeat}
+            selectedSeat={selectedSeat}
           />
         ))}
       </SeatContainer>

@@ -1,20 +1,28 @@
 import styled from "styled-components";
 import colors from "../assets/css/colors";
 
-function Seat({ name, status}) {
+function Seat({ id, name, status, setSelectedSeat, selectedSeat }) {
   const { GREEN, BORDERGREEN, GRAY, BORDERGRAY, YELLOW, BORDERYELLOW } = colors;
 
-  function statusColor(status) {
+  function statusColor(status, id) {
     if (status === true) {
-      return GRAY;
+      if (selectedSeat.includes(id)) {
+        return GREEN;
+      } else {
+        return GRAY;
+      }
     } else {
       return YELLOW;
     }
   }
 
-  function statusBorderColor(status) {
+  function statusBorderColor(status, id) {
     if (status === true) {
-      return BORDERGRAY;
+      if (selectedSeat.includes(id)) {
+        return BORDERGREEN;
+      } else {
+        return BORDERGRAY;
+      }
     } else {
       return BORDERYELLOW;
     }
@@ -28,19 +36,37 @@ function Seat({ name, status}) {
     }
   }
 
+  function selectSeat(id) {
+    if (status === false) {
+      alert("Esse assento não está disponível");
+    } else {
+      if (selectedSeat.includes(id)) {
+        const removeSelectedSeat = selectedSeat.filter((seat) => {
+          return seat !== id;
+        });
+        setSelectedSeat(removeSelectedSeat);
+      } else {
+        const newSelectedSeat = [...selectedSeat, id];
+        setSelectedSeat(newSelectedSeat);
+      }
+    }
+  }
+
   return name < 10 ? (
     <SeatLayout
-      color={statusColor(status)}
-      borderColor={statusBorderColor(status)}
+      color={statusColor(status, id)}
+      borderColor={statusBorderColor(status, id)}
       cursor={statusCursor(status)}
+      onClick={() => selectSeat(id)}
     >
       0{name}
     </SeatLayout>
   ) : (
     <SeatLayout
-      color={statusColor(status)}
+      color={statusColor(status, id)}
       borderColor={statusBorderColor(status)}
-      cursor={statusCursor(status)}
+      cursor={statusCursor(status, id)}
+      onClick={() => selectSeat(id)}
     >
       {name}
     </SeatLayout>
