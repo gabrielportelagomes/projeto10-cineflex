@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import loading from "../assets/img/loading.gif";
 import colors from "../assets/css/colors";
 import Seat from "./Seat";
@@ -13,6 +13,7 @@ function Seats() {
   const [seatsInfo, setSeatsInfo] = useState({});
   const [selectedSeat, setSelectedSeat] = useState([]);
   const [form, setForm] = useState({ ids: "", name: "", cpf: "" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const promise = axios.get(URL);
@@ -21,7 +22,9 @@ function Seats() {
       setSeatsInfo(response.data);
     });
 
-    promise.catch((error) => console.log(error.response.data));
+    promise.catch((error) => {
+      console.log(error.response.data);
+    });
   }, []);
 
   function handleForm(event) {
@@ -30,14 +33,29 @@ function Seats() {
   }
 
   function bookSeat(event) {
-    event.preventDefault();
-    /* const URL = "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many" */
-    const body = { ...form, ids: selectedSeat };
+    console.log(selectedSeat.length)
+    if (selectedSeat.length > 0) {
+      event.preventDefault();
+      const URL =
+        "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many";
+      const body = { ...form, ids: selectedSeat };
 
-    /* const promise = axios.post(URL, body) */
-    console.log(form);
-    console.log(body);
-    alert("Assento reservado com sucesso!");
+      const promise = axios.post(URL, body);
+
+      promise.then((response) => {
+        console.log(response.data);
+      });
+
+      promise.catch((error) => {
+        console.log(error.reponse.data);
+      });
+
+      console.log(body);
+      alert("Assento reservado com sucesso!");
+      /* navigate("/sucesso") */
+    } else {
+      alert("Selecione ao menos um assento!")
+    }
   }
 
   if (seatsInfo.seats === undefined) {
@@ -100,8 +118,10 @@ function Seats() {
             name="cpf"
             value={form.cpf}
             onChange={handleForm}
-            type="number"
+            type="text"
             placeholder="Digite seu CPF..."
+            minLength={11}
+            maxLength={11}
             required
           />
         </div>
@@ -259,6 +279,7 @@ const Button = styled.button`
   font-size: 18px;
   color: #ffffff;
   margin-top: 50px;
+  cursor: pointer;
 `;
 
 const Footer = styled.div`
