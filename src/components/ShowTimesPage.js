@@ -38,14 +38,14 @@ function ShowTimes() {
         {movieInfo.days.map((m) => (
           <MovieSessionLayout key={m.id}>
             <div>
-              <p>
+              <p data-identifier="session-date">
                 {m.weekday} - {m.date}
               </p>
             </div>
             <div>
               {m.showtimes.map((st) => (
                 <Link to={`/assentos/${st.id}`} key={st.id}>
-                  <button>{st.name}</button>
+                  <button data-identifier="hour-minute-btn">{st.name}</button>
                 </Link>
               ))}
             </div>
@@ -53,10 +53,12 @@ function ShowTimes() {
         ))}
       </MovieSessionContainer>
       <Footer>
-        <div>
+        <div data-identifier="movie-img-preview">
           <img src={movieInfo.posterURL} alt={movieInfo.title} />
         </div>
-        <p>{movieInfo.title}</p>
+        <p data-identifier="movie-and-session-infos-preview">
+          {movieInfo.title}
+        </p>
       </Footer>
     </ShowTimesContainer>
   );

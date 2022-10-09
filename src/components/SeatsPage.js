@@ -90,15 +90,27 @@ function Seats({
       </SeatContainer>
       <LabelsContainer>
         <SeatLabelContainer>
-          <SeatLabel color={GREEN} borderColor={BORDERGREEN}></SeatLabel>
+          <SeatLabel
+            color={GREEN}
+            borderColor={BORDERGREEN}
+            data-identifier="seat-selected-subtitle"
+          ></SeatLabel>
           <p>Selecionado</p>
         </SeatLabelContainer>
         <SeatLabelContainer>
-          <SeatLabel color={GRAY} borderColor={BORDERGRAY}></SeatLabel>
+          <SeatLabel
+            color={GRAY}
+            borderColor={BORDERGRAY}
+            data-identifier="seat-available-subtitle"
+          ></SeatLabel>
           <p>Disponível</p>
         </SeatLabelContainer>
         <SeatLabelContainer>
-          <SeatLabel color={YELLOW} borderColor={BORDERYELLOW}></SeatLabel>
+          <SeatLabel
+            color={YELLOW}
+            borderColor={BORDERYELLOW}
+            data-identifier="seat-unavailable-subtitle"
+          ></SeatLabel>
           <p>Indisponível</p>
         </SeatLabelContainer>
       </LabelsContainer>
@@ -113,6 +125,7 @@ function Seats({
             type="text"
             placeholder="Digite seu nome..."
             required
+            data-identifier="buyer-name-input"
           />
         </div>
         <div>
@@ -127,15 +140,18 @@ function Seats({
             minLength={11}
             maxLength={11}
             required
+            data-identifier="buyer-cpf-input"
           />
         </div>
-        <Button type="submit">Reservar assento(s)</Button>
+        <Button type="submit" data-identifier="reservation-btn">
+          Reservar assento(s)
+        </Button>
       </FormContainer>
       <Footer>
-        <MoviePoster>
+        <MoviePoster data-identifier="movie-img-preview">
           <img src={seatsInfo.movie.posterURL} alt={seatsInfo.movie.title} />
         </MoviePoster>
-        <SessionInfosStyle>
+        <SessionInfosStyle data-identifier="movie-and-session-infos-preview">
           <p>{seatsInfo.movie.title}</p>
           <p>
             {seatsInfo.day.weekday} - {seatsInfo.name}

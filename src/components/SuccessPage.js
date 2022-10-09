@@ -35,7 +35,7 @@ function Sucess({
       <InfosContainer>
         <Infos>
           <h2>Filme e sessão</h2>
-          <h3>
+          <h3 data-identifier="movie-session-infos-reserve-finished">
             {seatsInfo.movie.title}
             <br />
             {seatsInfo.day.date} {seatsInfo.name}
@@ -45,15 +45,19 @@ function Sucess({
           <h2>Ingressos</h2>
           {selectedSeatName.map((i) =>
             i < 10 ? (
-              <h3 key={i}>Assento 0{i}</h3>
+              <h3 key={i} data-identifier="seat-infos-reserve-finished">
+                Assento 0{i}
+              </h3>
             ) : (
-              <h3 key={i}>Assento {i}</h3>
+              <h3 key={i} data-identifier="seat-infos-reserve-finished">
+                Assento {i}
+              </h3>
             )
           )}
         </Infos>
         <Infos>
           <h2>Comprador</h2>
-          <h3>
+          <h3 data-identifier="buyer-infos-reserve-finished">
             Nome: {form.name}
             <br />
             CPF: {form.cpf.substr(0, 3)}.{form.cpf.substr(3, 3)}.
@@ -62,7 +66,7 @@ function Sucess({
         </Infos>
       </InfosContainer>
       <Link to={`/`}>
-        <Button onClick={clearData}>Voltar para Home</Button>
+        <Button onClick={clearData} data-identifier="back-to-home-btn">Voltar para Home</Button>
       </Link>
     </SuccessContainer>
   );

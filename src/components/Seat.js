@@ -72,6 +72,7 @@ function Seat({
       borderColor={statusBorderColor(status, id)}
       cursor={statusCursor(status)}
       onClick={() => selectSeat(id, name)}
+      data-identifier="seat"
     >
       0{name}
     </SeatLayout>
@@ -81,6 +82,7 @@ function Seat({
       borderColor={statusBorderColor(status)}
       cursor={statusCursor(status, id)}
       onClick={() => selectSeat(id, name)}
+      data-identifier="seat"
     >
       {name}
     </SeatLayout>

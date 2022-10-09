@@ -24,7 +24,7 @@ function Home() {
         </TopContainer>
         {movies.map((m) => (
           <Link to={`/sessoes/${m.id}`} key={m.id}>
-            <MovieLayout>
+            <MovieLayout data-identifier="movie-outdoor">
               <img src={m.posterURL} alt={m.title} />
             </MovieLayout>
           </Link>
