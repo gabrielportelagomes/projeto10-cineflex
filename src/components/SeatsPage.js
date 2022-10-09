@@ -6,13 +6,19 @@ import loading from "../assets/img/loading.gif";
 import colors from "../assets/css/colors";
 import Seat from "./Seat";
 
-function Seats() {
+function Seats({
+  form,
+  setForm,
+  selectedSeatId,
+  setSelectedSeatId,
+  seatsInfo,
+  setSeatsInfo,
+  selectedSeatName,
+  setSelectedSeatName,
+}) {
   const { GREEN, BORDERGREEN, GRAY, BORDERGRAY, YELLOW, BORDERYELLOW } = colors;
   const { idSessao } = useParams();
   const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`;
-  const [seatsInfo, setSeatsInfo] = useState({});
-  const [selectedSeat, setSelectedSeat] = useState([]);
-  const [form, setForm] = useState({ ids: "", name: "", cpf: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,13 +39,12 @@ function Seats() {
   }
 
   function bookSeat(event) {
-    console.log(selectedSeat.length)
-    if (selectedSeat.length > 0) {
+    if (selectedSeatId.length > 0) {
       event.preventDefault();
       const URL =
         "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many";
-      const body = { ...form, ids: selectedSeat };
-
+      const body = { ...form, ids: selectedSeatId };
+      setForm(body);
       const promise = axios.post(URL, body);
 
       promise.then((response) => {
@@ -49,12 +54,9 @@ function Seats() {
       promise.catch((error) => {
         console.log(error.reponse.data);
       });
-
-      console.log(body);
-      alert("Assento reservado com sucesso!");
-      /* navigate("/sucesso") */
+      navigate("/sucesso");
     } else {
-      alert("Selecione ao menos um assento!")
+      alert("Selecione ao menos um assento!");
     }
   }
 
@@ -79,8 +81,10 @@ function Seats() {
             id={s.id}
             name={s.name}
             status={s.isAvailable}
-            setSelectedSeat={setSelectedSeat}
-            selectedSeat={selectedSeat}
+            setSelectedSeatId={setSelectedSeatId}
+            selectedSeatId={selectedSeatId}
+            selectedSeatName={selectedSeatName}
+            setSelectedSeatName={setSelectedSeatName}
           />
         ))}
       </SeatContainer>

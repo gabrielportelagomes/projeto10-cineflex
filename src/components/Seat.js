@@ -1,12 +1,20 @@
 import styled from "styled-components";
 import colors from "../assets/css/colors";
 
-function Seat({ id, name, status, setSelectedSeat, selectedSeat }) {
+function Seat({
+  id,
+  name,
+  status,
+  setSelectedSeatId,
+  selectedSeatId,
+  selectedSeatName,
+  setSelectedSeatName,
+}) {
   const { GREEN, BORDERGREEN, GRAY, BORDERGRAY, YELLOW, BORDERYELLOW } = colors;
 
   function statusColor(status, id) {
     if (status === true) {
-      if (selectedSeat.includes(id)) {
+      if (selectedSeatId.includes(id)) {
         return GREEN;
       } else {
         return GRAY;
@@ -18,7 +26,7 @@ function Seat({ id, name, status, setSelectedSeat, selectedSeat }) {
 
   function statusBorderColor(status, id) {
     if (status === true) {
-      if (selectedSeat.includes(id)) {
+      if (selectedSeatId.includes(id)) {
         return BORDERGREEN;
       } else {
         return BORDERGRAY;
@@ -36,18 +44,24 @@ function Seat({ id, name, status, setSelectedSeat, selectedSeat }) {
     }
   }
 
-  function selectSeat(id) {
+  function selectSeat(id, name) {
     if (status === false) {
       alert("Esse assento não está disponível");
     } else {
-      if (selectedSeat.includes(id)) {
-        const removeSelectedSeat = selectedSeat.filter((seat) => {
+      if (selectedSeatId.includes(id)) {
+        const removeSelectedSeatId = selectedSeatId.filter((seat) => {
           return seat !== id;
         });
-        setSelectedSeat(removeSelectedSeat);
+        setSelectedSeatId(removeSelectedSeatId);
+        const removeSelectedSeatName = selectedSeatName.filter((seat) => {
+          return seat !== name;
+        });
+        setSelectedSeatName(removeSelectedSeatName);
       } else {
-        const newSelectedSeat = [...selectedSeat, id];
-        setSelectedSeat(newSelectedSeat);
+        const newSelectedSeatId = [...selectedSeatId, id];
+        setSelectedSeatId(newSelectedSeatId);
+        const newSelectedSeatName = [...selectedSeatName, name];
+        setSelectedSeatName(newSelectedSeatName);
       }
     }
   }
@@ -57,7 +71,7 @@ function Seat({ id, name, status, setSelectedSeat, selectedSeat }) {
       color={statusColor(status, id)}
       borderColor={statusBorderColor(status, id)}
       cursor={statusCursor(status)}
-      onClick={() => selectSeat(id)}
+      onClick={() => selectSeat(id, name)}
     >
       0{name}
     </SeatLayout>
@@ -66,7 +80,7 @@ function Seat({ id, name, status, setSelectedSeat, selectedSeat }) {
       color={statusColor(status, id)}
       borderColor={statusBorderColor(status)}
       cursor={statusCursor(status, id)}
-      onClick={() => selectSeat(id)}
+      onClick={() => selectSeat(id, name)}
     >
       {name}
     </SeatLayout>
