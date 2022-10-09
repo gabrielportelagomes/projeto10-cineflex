@@ -114,6 +114,7 @@ const MovieSessionContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  margin-bottom: 117px;
   &::-webkit-scrollbar {
     display: none;
   }

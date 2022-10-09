@@ -18,10 +18,10 @@ function Home() {
   }, []);
   return (
     <HomeContainer>
-      <TopContainer>
-        <h2>Selecione o Filme</h2>
-      </TopContainer>
       <MoviesContainer>
+        <TopContainer>
+          <h2>Selecione o Filme</h2>
+        </TopContainer>
         {movies.map((m) => (
           <Link to={`/sessoes/${m.id}`} key={m.id}>
             <MovieLayout>
@@ -50,6 +50,7 @@ const TopContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 45px;
+  margin-bottom: 45px;
   h2 {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
@@ -63,7 +64,6 @@ const MoviesContainer = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 35px;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
