@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import loading from "../assets/img/loading.gif";
+import { useEffect } from "react";
 
 function Sucess({
   form,
@@ -66,7 +67,9 @@ function Sucess({
         </Infos>
       </InfosContainer>
       <Link to={`/`}>
-        <Button onClick={clearData} data-identifier="back-to-home-btn">Voltar para Home</Button>
+        <Button onClick={clearData} data-identifier="back-to-home-btn">
+          Voltar para Home
+        </Button>
       </Link>
     </SuccessContainer>
   );

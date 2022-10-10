@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import loading from "../assets/img/loading.gif";
 import colors from "../assets/css/colors";
@@ -23,6 +23,8 @@ function Seats({
 
   useEffect(() => {
     const promise = axios.get(URL);
+    setSelectedSeatId([]);
+    setSelectedSeatName([]);
 
     promise.then((response) => {
       setSeatsInfo(response.data);
