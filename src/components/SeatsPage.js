@@ -2,6 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import InputMask from "react-input-mask";
 import loading from "../assets/img/loading.gif";
 import colors from "../assets/css/colors";
 import Seat from "./Seat";
@@ -25,6 +26,7 @@ function Seats({
     const promise = axios.get(URL);
     setSelectedSeatId([]);
     setSelectedSeatName([]);
+    setForm({ ids: "", name: "", cpf: "" })
 
     promise.then((response) => {
       setSeatsInfo(response.data);
@@ -37,7 +39,12 @@ function Seats({
 
   function handleForm(event) {
     const { name, value } = event.target;
-    setForm({ ...form, [name]: value });
+    if (name === "cpf") {
+      const newValue = value.replace(/\D+/g, "").replace("-", "");
+      setForm({ ...form, [name]: newValue });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   }
 
   function bookSeat(event) {
@@ -49,14 +56,11 @@ function Seats({
       setForm(body);
       const promise = axios.post(URL, body);
 
-      promise.then((response) => {
-        console.log(response.data);
-      });
+      promise.then(navigate("/sucesso"));
 
       promise.catch((error) => {
         console.log(error.reponse.data);
       });
-      navigate("/sucesso");
     } else {
       alert("Selecione ao menos um assento!");
     }
@@ -119,7 +123,7 @@ function Seats({
       <FormContainer onSubmit={bookSeat}>
         <div>
           <Label htmlFor="name">Nome do comprador:</Label>
-          <Input
+          <input
             id="name"
             name="name"
             value={form.name}
@@ -132,15 +136,14 @@ function Seats({
         </div>
         <div>
           <Label htmlFor="cpf">CPF do comprador:</Label>
-          <Input
+          <InputMask
+            mask="999.999.999-99"
             id="cpf"
             name="cpf"
             value={form.cpf}
             onChange={handleForm}
             type="text"
             placeholder="Digite seu CPF..."
-            minLength={11}
-            maxLength={11}
             required
             data-identifier="buyer-cpf-input"
           />
@@ -258,6 +261,26 @@ const FormContainer = styled.form`
   div {
     display: flex;
     flex-direction: column;
+    input {
+      width: 327px;
+      height: 51px;
+      border-radius: 3px;
+      border: 1px solid #d5d5d5;
+      background-color: #ffffff;
+      margin-bottom: 10px;
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: #000000;
+      padding: 18px;
+      ::placeholder {
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        font-style: italic;
+        color: #afafaf;
+      }
+    }
   }
 `;
 
@@ -267,27 +290,6 @@ const Label = styled.label`
   font-size: 18px;
   color: #000000;
   margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  width: 327px;
-  height: 51px;
-  border-radius: 3px;
-  border: 1px solid #d5d5d5;
-  background-color: #ffffff;
-  margin-bottom: 10px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 18px;
-  color: #000000;
-  padding: 18px;
-  ::placeholder {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    font-style: italic;
-    color: #afafaf;
-  }
 `;
 
 const Button = styled.button`

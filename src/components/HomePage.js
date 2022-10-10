@@ -14,7 +14,7 @@ function Home() {
       setMovies(response.data);
     });
 
-    promise.catch((error) => console.log(error));
+    promise.catch((error) => console.log(error.reponse.data));
   }, []);
   return (
     <HomeContainer>
@@ -82,6 +82,13 @@ const MovieLayout = styled.div`
   margin-left: 30px;
   margin-bottom: 11px;
   cursor: pointer;
+  &:hover {
+    background-color: #e8833a;
+    img {
+      width: 135px;
+      height: 199px;
+    }
+  }
   img {
     width: 129px;
     height: 193px;

@@ -17,7 +17,7 @@ function ShowTimes() {
       setMovieInfo(response.data);
     });
 
-    promise.catch((error) => console.log(error));
+    promise.catch((error) => console.log(error.reponse.data));
   }, []);
 
   if (movieInfo.days === undefined) {
@@ -146,6 +146,11 @@ const MovieSessionLayout = styled.div`
     font-size: 18px;
     color: #ffffff;
     cursor: pointer;
+    &:hover{
+      background-color: #dfe6ed;
+      border: 1px solid #9eadba;
+      color: #293845;
+    }
   }
 `;
 

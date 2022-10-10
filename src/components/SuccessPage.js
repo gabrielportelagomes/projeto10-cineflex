@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import loading from "../assets/img/loading.gif";
-import { useEffect } from "react";
 
 function Sucess({
   form,
